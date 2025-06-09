@@ -1,0 +1,11 @@
+subject: Biology
+topic: Cell Structure and Function
+diff_level: Senior Cycle  # can be "Junior Cycle", "Senior Cycle", "Higher Level", etc.
+subtopic: Mitochondria  # Optional: remove or comment out if not needed
+past_exam_questions: null  # or a string if available
+
+curriculum_file: Files/SC-BIOLOGY-Spec-ENG.txt
+self_assessment_pdf: Files/Biology-Self-Assessment.pdf
+reference_file: Files/BiologyAP.pdf
+
+api_key: "YOUR_REAL_API_KEY"
