@@ -1,11 +1,17 @@
 subject: Biology
-topic: Cell Structure and Function
-diff_level: Senior Cycle  # can be "Junior Cycle", "Senior Cycle", "Higher Level", etc.
-subtopic: Mitochondria  # Optional: remove or comment out if not needed
-past_exam_questions: null  # or a string if available
+topic: Enzyme
+diff_level:
+  Remember: 3
+  Understanding: 3
+  Applying: 3
+  Analyzing: 3
 
-curriculum_file: Files/SC-BIOLOGY-Spec-ENG.txt
-self_assessment_pdf: Files/Biology-Self-Assessment.pdf
-reference_file: Files/BiologyAP.pdf
+subtopic: Enzyme structure  # Optional: remove or comment out if not needed
+num_questions: 12
+past_exam_questions: ""    # optional
 
-api_key: "YOUR_REAL_API_KEY"
+curriculum_file: Files/curriculum.txt
+self_assessment_pdf: Files/Biology Revision & Self Assessment.pdf
+reference_file: Files/APBiology-OP_5meoFaG.pdf
+api_key: "...."
+output_folder: "Output"
