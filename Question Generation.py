@@ -1,194 +1,155 @@
 import os
-import requests
+import re
+import yaml
+import pandas as pd
 import fitz  # PyMuPDF
+from mistralai import Mistral
 
 
-# ------------- PDF Extraction Function -------------
+# --------- Config & File Loaders ---------
 
-def extract_text_from_pdf(pdf_path):
-    doc = fitz.open(pdf_path)
-    text = ""
-    for page in doc:
-        text += page.get_text()
-    return text
-
-
-# ------------- Read Subtopics Function -------------
-
-def read_subtopics(path):
+def load_config(path="config.yaml"):
     with open(path, "r", encoding="utf-8") as f:
-        return [line.strip() for line in f if line.strip()]
+        return yaml.safe_load(f)
 
 
-# ------------- Generate Prompt Function -------------
+def read_text_file(path):
+    if path and os.path.exists(path):
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                return f.read()
+        except Exception as e:
+            print(f"Error reading text file '{path}': {e}")
+    else:
+        print(f"⚠️ Text file not found: {path}")
+    return ""
 
-def generate_prompt(curriculum, self_assess, reference1, reference2, reference3, reference4, reference5):
-    return f"""
-Master Prompt – Biology Rubric Generation
-Biology Rubric Generation – Final Working Prompt
 
-Purpose
-To generate high-quality, student-ready question and rubric banks for the New Senior Cycle Biology Specification (2025){self_assess}. All outputs must be rigorous, non-repetitive, QA-verified, and practically useful in both teaching and assessment contexts.
+def read_pdf(path):
+    if path and os.path.exists(path):
+        try:
+            doc = fitz.open(path)
+            return "".join(page.get_text() for page in doc)
+        except Exception as e:
+            print(f"Error reading PDF '{path}': {e}")
+    else:
+        print(f"⚠️ PDF not found: {path}")
+    return ""
 
-Reference Framework
 
-Curriculum Source
-- Use the “Students should be able to…” learning outcomes from the Senior Cycle Biology Specification (2025){curriculum}.
-- Use the “Students learn about…” column to define scope, terminology, and boundaries.
+# --------- Prompt Creation ---------
 
-Reference Materials (for enrichment only)
-- {reference1}
-- {reference2}
-- {reference3}
-- {reference4}
-- {reference5}
+def generate_prompt(cfg, curriculum, self_assess, reference):
+    parts = [f"- Subject: {cfg['subject']}", f"- Topic: {cfg['topic']}"]
+    if cfg.get("subtopic"):
+        parts.append(f"- Subtopic: {cfg['subtopic']}")
 
-These sources must not be cited, but used to enrich question design, practical application, and conceptual depth.
+    bloom_levels = cfg.get("diff_level", {})
+    if not bloom_levels:
+        raise ValueError("diff_level config missing or empty")
 
-Question Bank Requirements
+    if cfg.get("past_exam_questions"):
+        parts.append(f"- Past exam questions: {cfg['past_exam_questions']}")
 
-Quantity
-- Each learning outcome must include 10 non-repetitive questions.
+    header = "\n".join(parts)
 
-Bloom’s Levels
-- Questions must span Bloom’s levels up to and including the level implied by the outcome verb.
-- Do not include questions at the Creating level.
+    prompt = f"""
+MASTER PROMPT – BIOLOGY RUBRIC GENERATION
 
-Required Variety
-Questions must be diverse in form and skill, including:
-- Definition recall
-- Comparisons (2 terms or processes)
-- Text-based diagrams or matching
-- Applied scenarios or examples
-- Fill-in-the-blanks
-- Explanations (only if explicitly prompted)
-- Experimental or real-world contexts
+You are an AI assistant helping a teacher create high-quality exam questions. Please generate high-quality assessment questions with rubrics according to the following criteria:
 
-Repetition Avoidance
-- Each question must target a distinct concept, process, or skill.
-- Do not rephrase the same question or use redundant variations.
+{header}
 
-Rubric Structure
+GUIDELINES:
 
-Each question must include:
-- Question text (with Bloom’s level indicated)
-- Correct Answer
-- Rubric table (2 rows, 4 columns) with visible borders:
-  | Exceeds Expectations | Meets Expectations | Approaching | Not Yet |
+1. For each Bloom’s Taxonomy level listed below, generate the specified number of questions.
+2. Each question must include:
+   • Question Text (mention Bloom level)
+   • Correct Answer
+   • A 4-column rubric table with labels:
+     | Exceeds Expectations | Meets Expectations | Approaching | Not Yet |
 
-Rubric Assignment Rules
+3. Rubrics:
+   - Spelling-based: single-word answers
+   - Conceptual: multiple terms or parts
+   - Explanation-based: requires reasoning
+   - Internal QA Rules (Automatically Applied)
+   - Ensure rubric type matches answer style
+   - Detect explanation-based expectations from question structure
+   - Prevent mismatch between number of items and rubric bands
+   - Remove vague phrases and enforce specific feedback
+   - Every rubric band must reflect the actual content and phrasing of the correct answer — avoid generic phrasing.
 
-Spelling-Based Rubrics
-Use when the correct answer is a single word or short factual label.
-Conceptual Rubrics
-Use when answers contain multiple parts or terms or require accuracy and specificity.
-Explanation-Based Rubrics
-Use when a question asks to “explain”, “describe”, “compare”, “why”, “how”, or requires reasoning.
 
-Rubrics must always:
-- Be answer-specific
-- Match the number of items asked for
-- Avoid generic or templated language
+4. Format questions numbered separately for each level, like:
+   ### Question 1 ({{level}})
+   **Question Text ({{level}}):** ...
+   **Correct Answer:** ...
+   | Exceeds Expectations | Meets Expectations | Approaching | Not Yet |
+   |----------------------|--------------------|-------------|---------|
+   | … | … | … | … |
 
-Output Format
+5. Question variety: include definitions, comparisons, scenarios, diagrams, etc.
+6. No repetition. No extra text outside the questions. Use Markdown.
 
-Word Document (.docx)
-- Title: Simplified Rubric Bank – [Code] [Learning Outcome Label]
-- Include for each question:
-  1. Question (Bloom's Level: [Level])
-  2. Question text
-  3. Correct Answer: [Answer]
-  4. Rubric table with 4 bands as described (horizontal, visible borders)
-
-CSV File (.csv)
-- Columns: Question, Bloom's Level, Correct Answer, Exceeds Expectations, Meets Expectations, Approaching, Not Yet
-
-Internal QA Rules (Automatically Applied)
-✔ Ensure rubric type matches answer style
-✔ Detect explanation-based expectations from question structure
-✔ Prevent mismatch between number of items and rubric bands
-✔ Remove vague phrases and enforce specific feedback
-
-Always Enrich With:
-1. Senior Cycle Biology Specification (2025)
-2. OpenStax K12 Biology
-3. OpenStax AP Biology Lab Manual
-4. Biology Revision & Self Assessment
-
-Action Verbs
-Use the Glossary of Action Verbs from the Specification (pages 47–48) to determine cognitive level and response style. All rubric logic must align with the action verb.
-
-Every rubric band must reflect the actual content and phrasing of the correct answer — avoid generic phrasing.
 """
 
+    for level, num_q in bloom_levels.items():
+        prompt += f"\n--- Bloom’s Level: {level} — Generate {num_q} questions ---\n"
 
-# ------------- Mistral API Function -------------
+    if curriculum:
+        prompt += f"\n--- Curriculum Snippet ---\n{curriculum[:1000]}\n"
+    if self_assess:
+        prompt += f"\n--- Self-Assessment Snippet ---\n{self_assess[:1000]}\n"
+    if reference:
+        prompt += f"\n--- Reference Snippet ---\n{reference[:1000]}\n"
 
-def call_mistral_api(prompt):
-    api_key = "dZVDZitfrDeI2GjNggUiL6yX4OLehZMp"
-    if not api_key:
-        raise ValueError("Please set the MISTRAL_API_KEY environment variable.")
-
-    url = "https://api.mistral.ai/v1/chat/completions"
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"
-    }
-    payload = {
-        "model": "mistral-tiny",  # Replace with your preferred model
-        "messages": [{"role": "user", "content": prompt}],
-        "temperature": 0.7
-    }
-    response = requests.post(url, headers=headers, json=payload)
-    if response.status_code == 200:
-        data = response.json()
-        return data["choices"][0]["message"]["content"]
-    else:
-        print(f"Error: {response.status_code} - {response.text}")
-        return None
+    prompt += "\nProceed with the questions now."
+    return prompt
 
 
-# ------------- Main Script -------------
+# --------- Mistral Call ---------
+
+def call_mistral(prompt, api_key):
+    with Mistral(api_key=api_key) as client:
+        resp = client.chat.complete(
+            model="mistral-large-latest",
+            messages=[{"role": "user", "content": prompt}],
+        )
+    return resp.choices[0].message.content.strip()
+
+
+# --------- Save to CSV ---------
+
+def save_to_csv(text, folder, filename="questions.csv"):
+    os.makedirs(folder, exist_ok=True)
+    # Split questions by "### Question <num> (<level>)" pattern to keep bloom level tags
+    entries = re.split(r"###\s*Question\s*\d+\s*\([^)]+\)", text)
+    # Sometimes the split leaves an empty first entry, so remove empties
+    questions = [e.strip() for e in entries if e.strip()]
+
+    df = pd.DataFrame({"Question": questions})
+    path = os.path.join(folder, filename)
+    df.to_csv(path, index=False, encoding="utf-8-sig")
+    print(f"✅ Saved {len(questions)} questions to {path}")
+
+
+# --------- Main ---------
 
 def main():
-    # File paths
-    CURRICULUM_PDF = "Files/SC-BIOLOGY-Spec-ENG.pdf"
-    SELF_ASSESS_PDF = "Files/Biology Revision & Self Assessment.pdf"
-    REFERENCE1_PDF = "Files/APBiology-OP_5meoFaG.pdf"
-    REFERENCE2_PDF = "Files/STUDENT_-_AP_Biology_Lab_Manual_Full.pdf"
-    REFERENCE3_PDF = "Files/Biology2e-WEB_ICOFkGu.pdf"
-    REFERENCE4_PDF = "Files/ConceptsofBiology-WEB.pdf"
-    REFERENCE5_PDF = "Files/Microbiology-WEB.pdf"
+    cfg = load_config()
 
-    # Extract text from PDFs
-    curriculum_text = extract_text_from_pdf(CURRICULUM_PDF)
-    self_assess_text = extract_text_from_pdf(SELF_ASSESS_PDF)
-    reference1_text = extract_text_from_pdf(REFERENCE1_PDF)
-    reference2_text = extract_text_from_pdf(REFERENCE2_PDF)
-    reference3_text = extract_text_from_pdf(REFERENCE3_PDF)
-    reference4_text = extract_text_from_pdf(REFERENCE4_PDF)
-    reference5_text = extract_text_from_pdf(REFERENCE5_PDF)
+    curriculum = read_text_file(cfg.get("curriculum_file", ""))
+    self_assess = read_pdf(cfg.get("self_assessment_pdf", ""))
+    reference = read_pdf(cfg.get("reference_file", ""))
 
-    # Generate the prompt
+    prompt = generate_prompt(cfg, curriculum, self_assess, reference)
+    print("➡️ Sending prompt to Mistral...")
+    output = call_mistral(prompt, cfg["api_key"])
+    print("\n--- Output preview ---\n")
+    print(output[:800] + "\n...")
 
-    prompt = generate_prompt(
-        curriculum_text,
-        self_assess_text,
-        reference1_text,
-        reference2_text,
-        reference3_text,
-        reference4_text,
-        reference5_text
-    )
-
-    # Call the Mistral API
-    print("Generating questions, answers, and rubrics...")
-    response = call_mistral_api(prompt)
-    if response:
-        print("\n--- Generated Output ---\n")
-        print(response)
-    else:
-        print("No response received.")
+    save_to_csv(output, cfg["output_folder"])
 
 
 if __name__ == "__main__":
