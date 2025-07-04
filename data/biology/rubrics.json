@@ -1,0 +1,66 @@
+{
+  "title": "Gold-Standard Rubric Structure",
+  "purpose": "Provide clear, consistent, and fair assessment guidelines aligned with ideal answers and learning objectives.",
+  "frameworks": [
+    {
+      "name": "Bloom's Taxonomy",
+      "description": "Classifies cognitive skills from recall to creation."
+    },
+    {
+      "name": "SOLO Taxonomy",
+      "description": "Five levels of understanding, from Prestructural to Extended Abstract."
+    },
+    {
+      "name": "AAC&U VALUE Rubrics",
+      "description": "Institutional-level tools for key higher education competencies."
+    }
+  ],
+  "core_principles": [
+    {
+      "principle": "Alignment with Learning Objectives",
+      "details": [
+        "Map each criterion to specific outcomes.",
+        "Use clear action verbs from Bloom's."
+      ]
+    },
+    {
+      "principle": "Clarity and Specificity",
+      "details": [
+        "Avoid vague words like 'good'.",
+        "Limit criteria and levels for usability."
+      ]
+    },
+    {
+      "principle": "Descriptive Performance Levels",
+      "details": [
+        "Use detailed, developmental language.",
+        "Frame levels as stages of mastery."
+      ]
+    },
+    {
+      "principle": "Validity, Reliability, and Fairness",
+      "details": [
+        "Ensure measurement of intended outcomes.",
+        "Consistency across raters; fairness for students."
+      ]
+    }
+  ],
+  "format": {
+    "types": ["Analytic", "Holistic", "Single-point"],
+    "recommendation": "Use analytic for detailed feedback."
+  },
+  "ideal_answer_approach": {
+    "steps": [
+      "Write a scientifically accurate ideal answer.",
+      "Don't give any score",
+      "It doesnt need title and purpose in the output",
+      "Develop performance bands: Comprehensive, Competent, Partial, Limited.",
+      "Map bands to ideal answer elements.",
+      "Include clear feedback on gaps."
+    ]
+  },
+  "application_contexts": {
+    "K12": "Use developmental language, fewer levels, more formative feedback.",
+    "HigherEducation": "Detailed analytic rubrics aligned with discipline standards."
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "Biology": {
+    "text": "Biology is the study of life.",
+    "subtopics": {
+      "Enzymes": {
+        "text": "Enzymes are biological catalysts.",
+        "subtopics": {
+          "Enzyme Structure": {
+            "text": "Enzymes have active sites where substrates bind."
+          }
+        }
+      }
+    }
+  }
+}
