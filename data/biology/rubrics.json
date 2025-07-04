@@ -47,20 +47,16 @@
   ],
   "format": {
     "types": ["Analytic", "Holistic", "Single-point"],
-    "recommendation": "Use analytic for detailed feedback."
+    "recommendation": "Use analytics for detailed feedback."
   },
   "ideal_answer_approach": {
     "steps": [
       "Write a scientifically accurate ideal answer.",
       "Don't give any score",
-      "It doesnt need title and purpose in the output",
+      "It doesn't need title and purpose in the output",
       "Develop performance bands: Comprehensive, Competent, Partial, Limited.",
       "Map bands to ideal answer elements.",
       "Include clear feedback on gaps."
     ]
-  },
-  "application_contexts": {
-    "K12": "Use developmental language, fewer levels, more formative feedback.",
-    "HigherEducation": "Detailed analytic rubrics aligned with discipline standards."
   }
 }
