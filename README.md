@@ -37,7 +37,7 @@ This repository contains `main.py` — a flexible educational Q&A and rubric gen
 │   │   ├── curriculum.json
 │   │   ├── examples.json
 │   │   ├── rubrics.json
-│   ├── [subject]/
+│   ├── chemistry/
 │       ├── ...
 └── results/
     └── output.json
