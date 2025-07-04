@@ -101,7 +101,7 @@ Context:
 - Example Q&As: {example_qas}
 - Rubric Structure: {rubric_structure}
 
-✅ Output the result in valid JSON using this structure:
+ Output the result in valid JSON using this structure:
 {{
   "Q&A&rubrics": [
     {{
@@ -175,13 +175,13 @@ def parse_and_save_response(response_json, output_file):
     try:
         data = json.loads(message)
     except json.JSONDecodeError as e:
-        print(f"⚠️  Failed to parse LLM output: {e}")
+        print(f"  Failed to parse LLM output: {e}")
         raise
 
     with open(output_file, 'w') as f:
         json.dump(data, f, indent=2)
 
-    print(f"✅ Q&As and rubrics saved to {output_file}")
+    print(f" Q&As and rubrics saved to {output_file}")
 
 
 # --------------- Main ---------------
