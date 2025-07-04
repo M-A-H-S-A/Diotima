@@ -75,13 +75,14 @@ Or for OpenAI:
 
 ```json
 {
+  
   "subject": "Biology",
   "grade_level": "10",
-  "topic": "Photosynthesis",
-  "subtopic": "Light Reactions",
-  "bloom_level": "Understand",
+  "topic": "Enzymes",
+  "subtopic": "Enzymes",
+  "bloom_level": "Analyze",
   "num_questions": 5,
-  "user_keywords": "chlorophyll, ATP, NADPH",
+  "user_keywords": "active site, induced fit",
   "output_folder": "results"
 }
 ```
