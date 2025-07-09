@@ -20,7 +20,8 @@ This repository contains `main.py` — a flexible educational Q&A and rubric gen
 
 - The final prompt is sent to your chosen LLM (Mistral or OpenAI).
 
-- The response (questions, answers, rubrics) is saved as `output.json` in your output folder.
+- The response (questions, answers, rubrics) is saved as `output.json` in:
+  `/data/<subject>/results/<output_folder>/`
 
 ---
 
@@ -37,10 +38,10 @@ This repository contains `main.py` — a flexible educational Q&A and rubric gen
 │   │   ├── curriculum.json
 │   │   ├── examples.json
 │   │   ├── rubrics.json
-│   ├── chemistry/
-│       ├── ...
-└── results/
-    └── output.json
+│   │   └── results/
+│   │       └── <output_folder>/
+│   │           └── output.json
+
 ```
 
 - `main.py` — your main script.
@@ -83,7 +84,7 @@ Or for OpenAI:
   "bloom_level": "Analyze",
   "num_questions": 5,
   "user_keywords": "active site, induced fit",
-  "output_folder": "results"
+  "output_folder": "Enzymes"
 }
 ```
 
@@ -102,5 +103,7 @@ Adjust parameters in `parameters.json`.
 python main.py
 ```
 
-Find your generated Q&A & rubrics in the `results/` folder as `output.json`.
+
+In this example, the output will be saved in:
+/data/biology/results/Enzymes/output.json
 
