@@ -9,33 +9,17 @@ DATA_DIR = os.path.join(BASE_DIR, "data")  # /data root
 
 # --------------- Helpers ---------------
 
-def find_subtopic_text(topic_dict, subtopic_name):
+def find_subtopic_text(structured_book, subtopic_name):
     """
-    Recursively search for subtopic_name in topic_dict and return its 'text'.
+    Search for the subtopic_name in the structured_book and return its text content.
     """
-    if not isinstance(topic_dict, dict):
-        return None
-
-    if subtopic_name in topic_dict:
-        subtopic_data = topic_dict[subtopic_name]
-        if isinstance(subtopic_data, dict) and "text" in subtopic_data:
-            return subtopic_data["text"]
-
-    if "subtopics" in topic_dict:
-        for sub_key, sub_val in topic_dict["subtopics"].items():
-            if sub_key == subtopic_name:
-                return sub_val.get("text")
-            found = find_subtopic_text(sub_val, subtopic_name)
-            if found:
-                return found
-
-    for key, value in topic_dict.items():
-        if isinstance(value, dict):
-            found = find_subtopic_text(value, subtopic_name)
-            if found:
-                return found
-
+    for topic, subtopics in structured_book.items():
+        if subtopic_name in subtopics:
+            return subtopics[subtopic_name]
+    print(f"Warning: Subtopic '{subtopic_name}' not found in structured_book.")
     return None
+
+
 
 
 def load_json_safe_from_base(filename):
@@ -77,6 +61,7 @@ def build_prompt(params, textbook_data, curriculum_data, examples_data, rubric_d
     user_keywords = params.get('user_keywords', '')
 
     textbook_content = find_subtopic_text(textbook_data, subtopic) or "Use general knowledge about the subtopic."
+#    print(json.dumps(textbook_content, indent=2))  # pretty print if it’s a dict/list
     curriculum_content = curriculum_data.get(subtopic) or "Use standard curriculum expectations for this topic and grade."
     example_qas = examples_data.get(subtopic) or []
     rubric_structure = rubric_data if rubric_data else {
@@ -201,8 +186,9 @@ def main():
 
     response = call_llm_api(prompt, config)
 
-    output_folder = params.get('output_folder', 'results')
-    output_folder_path = os.path.join(BASE_DIR, output_folder)
+    subject_dir = os.path.join(DATA_DIR, subject)
+    custom_output_folder = params.get('output_folder', 'default')
+    output_folder_path = os.path.join(subject_dir, 'results', custom_output_folder)
     os.makedirs(output_folder_path, exist_ok=True)
 
     output_file = os.path.join(output_folder_path, 'output.json')
