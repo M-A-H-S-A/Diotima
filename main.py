@@ -16,9 +16,17 @@ def find_subtopic_text(structured_book, subtopic_name):
     for topic, subtopics in structured_book.items():
         if subtopic_name in subtopics:
             return subtopics[subtopic_name]
-    print(f"Warning: Subtopic '{subtopic_name}' not found in structured_book.")
+    print(f"Warning: Subtopic '{subtopic_name}' not found in refrences.")
     return None
 
+def find_topic_text(structured_book, topic_name):
+    """
+    Search for the topic_name in the structured_book and return its text content.
+    """
+    if topic_name in structured_book:
+        return structured_book[topic_name]
+    print(f"Warning: Topic '{topic_name}' not found in the references.")
+    return None
 
 
 
@@ -62,7 +70,8 @@ def build_prompt(params, textbook_data, curriculum_data, examples_data, rubric_d
 
     textbook_content = find_subtopic_text(textbook_data, subtopic) or "Use general knowledge about the subtopic."
 #    print(json.dumps(textbook_content, indent=2))  # pretty print if it’s a dict/list
-    curriculum_content = curriculum_data.get(subtopic) or "Use standard curriculum expectations for this topic and grade."
+    curriculum_content = find_topic_text(curriculum_data, topic) or "Use standard curriculum expectations for this topic and grade."
+    print(json.dumps(curriculum_content, indent=2))
     example_qas = examples_data.get(subtopic) or []
     rubric_structure = rubric_data if rubric_data else {
         "criteria": "Use standard marking criteria appropriate for grade level and Bloom's Taxonomy level."
@@ -86,7 +95,7 @@ Context:
 - Example Q&As: {example_qas}
 - Rubric Structure: {rubric_structure}
 
- Output the result in valid JSON using this structure:
+✅ Output the result in valid JSON using this structure:
 {{
   "Q&A&rubrics": [
     {{
@@ -160,13 +169,13 @@ def parse_and_save_response(response_json, output_file):
     try:
         data = json.loads(message)
     except json.JSONDecodeError as e:
-        print(f"  Failed to parse LLM output: {e}")
+        print(f"⚠️  Failed to parse LLM output: {e}")
         raise
 
     with open(output_file, 'w') as f:
         json.dump(data, f, indent=2)
 
-    print(f" Q&As and rubrics saved to {output_file}")
+    print(f"✅ Q&As and rubrics saved to {output_file}")
 
 
 # --------------- Main ---------------
