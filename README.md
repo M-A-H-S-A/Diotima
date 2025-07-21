@@ -82,7 +82,7 @@ Or for OpenAI:
   "topic": "Enzymes",
   "subtopic": "Enzymes",
   "bloom_level": "Analyze",
-  "num_questions": 5,
+  "num_questions": 5, # Per bloom level 
   "user_keywords": "active site, induced fit",
   "output_folder": "Enzymes"
 }
