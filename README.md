@@ -46,7 +46,9 @@ This repository contains `main.py` — a flexible educational Q&A and rubric gen
 │   │   ├── rubrics.json
 │   │   └── results/
 │   │       └── <output_folder>/
-│   │           └── output.json
+│   │           ├── output.json
+│   │           └── token_log.csv
+
 
 ```
 
