@@ -23,6 +23,12 @@ This repository contains `main.py` — a flexible educational Q&A and rubric gen
 - The response (questions, answers, rubrics) is saved as `output.json` in:
   `/data/<subject>/results/<output_folder>/`
 
+- Logs token usage (input/output tokens and time) to token_log.csv in the output folder.
+
+- Ignores rubric generation for specific question types like "multiple_choice", "true_false", etc., defined in rubrics.json.
+
+- Rubric generation aligns with ideal answers and cognitive frameworks like Bloom, SOLO, and VALUE.
+
 ---
 
 ##  Project Structure
@@ -82,7 +88,7 @@ Or for OpenAI:
   "topic": "Enzymes",
   "subtopic": "Enzymes",
   "bloom_level": "Analyze",
-  "num_questions": 5, # Per bloom level 
+  "num_questions": 5, # Per Bloom level 
   "user_keywords": "active site, induced fit",
   "output_folder": "Enzymes"
 }
