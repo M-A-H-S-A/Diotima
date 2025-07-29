@@ -1,5 +1,6 @@
 {
-  "provider": "mistral",
-  "model": "mistral-medium-latest",
-  "api_key": "dZVDZitfrDeI2GjNggUiL6yX4OLehZMp"
+  "model": "models/gemini-2.5-flash",
+  "gemini_api_key": "YOUR_GEMINI_API_KEY",
+  "openai_api_key": "YOUR_OPENAI_API_KEY",
+  "mistral_api_key": "YOUR_MISTRAL_API_KEY"
 }
