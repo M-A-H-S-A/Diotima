@@ -64,20 +64,14 @@ This repository contains `main.py` — a flexible educational Q&A and rubric gen
 
 ```json
 {
-  "provider": "mistral",
-  "api_key": "YOUR_API_KEY"
+  "model": "gpt-4o",
+  "mistral_api_key": "YOUR_Mistral_API_KEY",
+  "openai_api_key": "YOUR_Openai_API_KEY",
+  "gemini_api_key": "YOUR_Gemini_API_KEY",
+  "meta_llama_api_key": "LLM|YOUR_META_LLAMA_API_KEY_HERE"
+
 }
 ```
-
-Or for OpenAI:
-
-```json
-{
-  "provider": "openai",
-  "api_key": "YOUR_OPENAI_API_KEY"
-}
-```
-
 ---
 
 ##  Example `parameters.json`
