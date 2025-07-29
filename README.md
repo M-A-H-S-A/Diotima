@@ -135,7 +135,7 @@ List of model names you can use in your `config.json`, grouped by provider.
 
 * `mistral-large-latest`
 * `mistral-small-latest`
-* `mistral-tiny-latest`
+* `mistral-medium-latest`
 * `mixtral-8x7b-instruct-v0.1`
 * `codestral-2501`
 * `mistral-nemo`
