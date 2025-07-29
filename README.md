@@ -110,6 +110,8 @@ In this example, the output will be saved in:
 /data/biology/results/Enzymes/output.json
 
 ###_______________________________________________________###
+
+
 List of model names you can use in your `config.json`, grouped by provider.
 
 **1. Google Gemini (for `gemini_api_key`)**
