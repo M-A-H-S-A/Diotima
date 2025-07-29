@@ -115,3 +115,40 @@ python main.py
 In this example, the output will be saved in:
 /data/biology/results/Enzymes/output.json
 
+###_______________________________________________________###
+List of model names you can use in your `config.json`, grouped by provider.
+
+**1. Google Gemini (for `gemini_api_key`)**
+
+* `models/gemini-2.5-flash`
+* `models/gemini-2.5-flash-lite`
+* `models/gemini-2.5-pro`
+* `models/gemini-1.5-flash`
+* `models/gemini-1.5-pro`
+* `models/gemini-pro`
+* `models/gemini-pro-vision` (for multimodal input including images)
+
+**2. OpenAI (for `openai_api_key`)**
+
+* `gpt-4o`
+* `gpt-4o-mini`
+* `gpt-4-turbo` (or `gpt-4-turbo-2024-04-09` for a specific date version)
+* `gpt-3.5-turbo` (or `gpt-3.5-turbo-0125` for a specific date version)
+
+**3. Mistral AI (for `mistral_api_key`)**
+
+* `mistral-large-latest`
+* `mistral-small-latest`
+* `mistral-tiny-latest`
+* `mixtral-8x7b-instruct-v0.1`
+* `codestral-2501`
+* `mistral-nemo`
+
+**4. Ollama (No separate API key needed, requires local download via `ollama pull <model_name>`)**
+
+* `llama3`
+* `mistral`
+* `mixtral`
+* `gemma`
+* `phi3`
+* `codellama`
