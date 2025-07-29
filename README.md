@@ -8,7 +8,7 @@ This repository contains `main.py` — a flexible educational Q&A and rubric gen
 ##  How It Works
 
 - It loads:
-  - **parameters.json** — your main inputs (subject, topic, subtopic, Bloom’s level, etc.).
+  - **parameters.json** — main inputs (subject, topic, subtopic, Bloom’s level, etc.).
   - **book.json** — textbook excerpts to give the model context.
   - **curriculum.json** — curriculum expectations to help align questions.
   - **examples.json** — example Q&As to guide style.
@@ -16,9 +16,9 @@ This repository contains `main.py` — a flexible educational Q&A and rubric gen
 
 - You can add or skip any of these — the model will fall back to its general knowledge if they’re missing.
 
-- The script reads your **API config** (model & API key) from `config.json`.
+- The script reads the **API config** (model & API key) from `config.json`.
 
-- The final prompt is sent to your chosen LLM (Mistral or OpenAI).
+- The final prompt is sent to your chosen LLM (Mistral or OpenAI ...).
 
 - The response (questions, answers, rubrics) is saved as `output.json` in:
   `/data/<subject>/results/<output_folder>/`
@@ -63,9 +63,9 @@ edu_content_generator/
 
 ```
 
-- `main.py` — your main script.
-- `config.json` — holds your API key and model info.
-- `parameters.json` — all your user inputs.
+- `main.py` —  main script.
+- `config.json` — holds the API key and model info.
+- `parameters.json` — all the user inputs.
 - `data/subject/` — any supporting files for that subject.
 - `results/` — generated Q&A and rubrics.
 
@@ -123,7 +123,7 @@ In this example, the output will be saved in:
 ###_______________________________________________________###
 
 
-List of model names you can use in your `config.json`, grouped by provider.
+List of model names you can use in the `config.json`, grouped by provider.
 
 **1. Google Gemini (for `gemini_api_key`)**
 
