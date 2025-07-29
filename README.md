@@ -34,20 +34,31 @@ This repository contains `main.py` — a flexible educational Q&A and rubric gen
 ##  Project Structure
 
 ```
-/your-project
+edu_content_generator/
 ├── main.py
 ├── config.json
 ├── parameters.json
+├── src/                         # All core logic modules
+│   ├── __init__.py
+│   ├── config_loader.py
+│   ├── data_loader.py
+│   ├── prompt_builder.py
+│   ├── llm_api_client.py
+│   ├── output_processor.py
+│   └── token_logger.py
 ├── data/
-│   ├── biology/
-│   │   ├── book.json
-│   │   ├── curriculum.json
-│   │   ├── examples.json
-│   │   ├── rubrics.json
-│   │   └── results/
-│   │       └── <output_folder>/
-│   │           ├── output.json
-│   │           └── token_log.csv
+│   ├── __init__.py
+│   └── biology/
+│       ├── __init__.py
+│       ├── book.json
+│       ├── curriculum.json
+│       ├── examples.json
+│       ├── rubrics.json
+│       └── results/            
+│           └── <output_folder>/
+│               ├── output.json
+│               └── token_log.csv
+
 
 
 ```
