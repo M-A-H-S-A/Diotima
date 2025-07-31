@@ -4,7 +4,17 @@
 This repository contains `main.py` — a flexible educational Q&A and rubric generator that uses LLMs (like Mistral or OpenAI GPT) to produce high-quality question-answer pairs and marking rubrics for any subject.
 
 ---
+## Contents
 
+- [How It Works](#how-it-works)
+- [Project Structure](#project-structure)
+- [Example config.json](#example-configjson)
+- [Example parameters.json](#example-parametersjson)
+- [How to Run](#how-to-run)
+- [LLMs Models](#llms-models)
+- [Available Topics and Subtopics](#available-topics-and-subtopics)
+
+---
 ##  How It Works
 
 - It loads:
