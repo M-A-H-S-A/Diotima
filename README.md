@@ -120,8 +120,9 @@ python main.py
 In this example, the output will be saved in:
 /data/biology/results/Enzymes/output.json
 
-###_______________________________________________________###
+---
 
+## LLMs Models
 
 List of model names you can use in the `config.json`, grouped by provider.
 
@@ -161,10 +162,9 @@ List of model names you can use in the `config.json`, grouped by provider.
 * `codellama`
 
 
-###_______________________________________________________###
+---
 
-
-Available Topics and Subtopics
+## Available Topics and Subtopics
 When selecting a topic and corresponding subtopic, please choose from the following list:
 
 
