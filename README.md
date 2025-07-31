@@ -89,16 +89,16 @@ edu_content_generator/
 
 ```json
 {
-  
   "subject": "Biology",
   "grade_level": "10",
-  "topic": "Enzymes",
-  "subtopic": "Enzymes",
-  "bloom_level": "Analyze",
-  "num_questions": 5, # Per Bloom level 
-  "user_keywords": "active site, induced fit",
-  "output_folder": "Enzymes"
+  "topic": "3.3 Information of life: genetic engineering",
+  "subtopic": "Scientific hypothesis",
+  "bloom_level": "Remembering",
+  "num_questions": 4,
+  "user_keywords": "",
+  "output_folder": "Test"
 }
+
 ```
 
 ---
