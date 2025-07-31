@@ -95,7 +95,7 @@ edu_content_generator/
   "subtopic": "Scientific hypothesis",
   "bloom_level": "Remembering",
   "num_questions": 4,
-  "user_keywords": "",
+  "user_keywords": "ecosystem",
   "output_folder": "Test"
 }
 
