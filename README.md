@@ -165,11 +165,7 @@ List of model names you can use in the `config.json`, grouped by provider.
 **4. Ollama (No separate API key needed, requires local download via `ollama pull <model_name>`)**
 
 * `llama3`
-* `mistral`
-* `mixtral`
-* `gemma`
-* `phi3`
-* `codellama`
+* `llama4`
 
 
 ---
