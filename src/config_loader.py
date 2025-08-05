@@ -1,21 +1,19 @@
 import os
 import json
 
-
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__)) # This is src/
-PROJECT_ROOT = os.path.dirname(PROJECT_ROOT) # Now this is edu_content_generator/
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def load_config():
     """
-    Loads configuration from config.json and environment variables.
-    Prioritizes environment variables for API keys.
+    Load model config and determine the correct API key based on provider prefix.
     """
+    # Load environment variables
     mistral_api_key_env = os.getenv("MISTRAL_API_KEY")
     openai_api_key_env = os.getenv("OPENAI_API_KEY")
     gemini_api_key_env = os.getenv("GEMINI_API_KEY")
+    claude_api_key_env = os.getenv("ANTHROPIC_API_KEY")
 
     config = {}
-    # Use PROJECT_ROOT to find config.json
     file_path = os.path.join(PROJECT_ROOT, "config.json")
 
     config_from_file = {}
@@ -39,33 +37,37 @@ def load_config():
             config['model'] = config_from_file.get('model')
         except json.JSONDecodeError as e:
             print(f"Error parsing config.json after comment stripping: {e}")
-            print("Please ensure your config.json is valid JSON format *after* comments are removed.")
-            print("Problematic content attempted to parse:\n", cleaned_json_string)
+            print("Problematic content:\n", cleaned_json_string)
             raise
 
-    model_choice = config.get('model', '').lower()
-    chosen_api_key = None
+    model_name = config.get('model', config_from_file.get('model', '')).lower()
 
-    if "mistral" in model_choice:
-        chosen_api_key = mistral_api_key_env or config_from_file.get('mistral_api_key')
-        if not chosen_api_key:
-            raise ValueError("Mistral API key not found. Please set MISTRAL_API_KEY environment variable or provide 'mistral_api_key' in config.json.")
-    elif "gpt" in model_choice:
-        chosen_api_key = openai_api_key_env or config_from_file.get('openai_api_key')
-        if not chosen_api_key:
-            raise ValueError("OpenAI API key not found. Please set OPENAI_API_KEY environment variable or provide 'openai_api_key' in config.json.")
-    elif "gemini" in model_choice:
-        chosen_api_key = gemini_api_key_env or config_from_file.get('gemini_api_key')
-        if not chosen_api_key:
-            raise ValueError("Gemini API key not found. Please set GEMINI_API_KEY environment variable or provide 'gemini_api_key' in config.json.")
-    elif "llama" in model_choice:
-        chosen_api_key = None # No API key for local Ollama
+    # Determine provider from model prefix
+    if model_name.startswith("mistral"):
+        provider = "mistral"
+        api_key = mistral_api_key_env or config_from_file.get('mistral_api_key')
+    elif model_name.startswith("gpt") or model_name.startswith("o") or model_name.startswith("text-") or model_name.startswith("davinci"):
+        provider = "openai"
+        api_key = openai_api_key_env or config_from_file.get('openai_api_key')
+    elif model_name.startswith("models/gemini"):
+        provider = "gemini"
+        api_key = gemini_api_key_env or config_from_file.get('gemini_api_key')
+    elif model_name.startswith("claude"):
+        provider = "claude"
+        api_key = claude_api_key_env or config_from_file.get('claude_api_key')
+    elif model_name.startswith("llama"):
+        provider = "llama"
+        api_key = None
     else:
-        raise ValueError(f"Model '{config.get('model')}' not specified in config.json or unsupported model. Please choose from 'mistral-large-latest', 'gpt-4o', 'gemini-pro', or 'llama3' etc.")
+        raise ValueError(f"Unsupported or missing model: '{model_name}'.\nExpected prefixes: 'gpt', 'mistral', 'claude', 'gemini', 'llama'.")
 
-    config['api_key'] = chosen_api_key
+    if provider != "llama" and not api_key:
+        raise ValueError(f"{provider.title()} API key not found. Set it as an environment variable or in config.json.")
+
+    config["model"] = model_name
+    config["api_key"] = api_key
+    config["provider"] = provider
     return config
-
 if __name__ == '__main__':
     try:
         cfg = load_config()
