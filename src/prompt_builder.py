@@ -41,33 +41,23 @@ Context of Q&A must:
 - User Keywords: {user_keywords}
 
 Format your output as valid JSON:
-
 {{
-  "Output": {{
-    "<BloomLevel>": [
+  "question": "{question}",
+  "answer": "...",
+  "rubric": {{
+    "levels": [
       {{
-        "question": "Explain why viruses are difficult to classify as living organisms.",
-        "answer": "...",
-        "rubric": {{
-          "levels": [
-            {{
-              "level": "Comprehensive Response",
-              "description": "..."
-            }},
-            {{
-              "level": "Partial Response",
-              "description": "..."
-            }},
-            {{
-              "level": "Limited Response",
-              "description": "..."
-            }}
-          ]
-        }}
+        "level": "Comprehensive Response",
+        "description": "..."
+      }},
+      {{
+        "level": "Partial Response",
+        "description": "..."
+      }},
+      {{
+        "level": "Limited Response",
+        "description": "..."
       }}
-    ],
-    "Applying": [
-      ...
     ]
   }}
 }}
