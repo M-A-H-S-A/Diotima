@@ -1,0 +1,6 @@
+{
+  "model": "The model you want to use",
+  "gemini_api_key": "YOUR_GEMINI_API_KEY",
+  "openai_api_key": "YOUR_OPENAI_API_KEY",
+  "mistral_api_key": "YOUR_MISTRAL_API_KEY"
+}
