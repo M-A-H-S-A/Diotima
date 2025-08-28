@@ -158,9 +158,7 @@ List of model names you can use in the `config.json`, grouped by provider.
 * `mistral-large-latest`
 * `mistral-small-latest`
 * `mistral-medium-latest`
-* `mixtral-8x7b-instruct-v0.1`
-* `codestral-2501`
-* `mistral-nemo`
+
 
 **4. Ollama (No separate API key needed, requires local download via `ollama pull <model_name>`)**
 
