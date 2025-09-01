@@ -146,11 +146,13 @@ List of model names you can use in the `config.json`, grouped by provider.
 **2. OpenAI (for `openai_api_key`)**
 
 * `gpt-4.1`
+* `gpt-4.1-mini`
 * `gpt-5`
 * `gpt-5-mini`
 * `gpt-4o-mini`
-* `gpt-4-turbo` (or `gpt-4-turbo-2024-04-09` for a specific date version)
-* `gpt-3.5-turbo` (or `gpt-3.5-turbo-0125` for a specific date version)
+* `o3-mini`
+* `o4-mini`
+
 
 **3. Mistral AI (for `mistral_api_key`)**
 
