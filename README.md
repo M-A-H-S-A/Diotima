@@ -100,7 +100,7 @@ edu_content_generator/
 ```json
 {
   "subject": "Biology",
-  "grade_level": "10",
+  "grade_level": "16-18",
   "topic": "3.3 Information of life: genetic engineering",
   "subtopic": "Scientific hypothesis",
   "bloom_level": "Remembering",
@@ -140,15 +140,14 @@ List of model names you can use in the `config.json`, grouped by provider.
 
 * `models/gemini-2.5-flash`
 * `models/gemini-2.5-flash-lite`
-* `models/gemini-2.5-pro`
 * `models/gemini-1.5-flash`
-* `models/gemini-1.5-pro`
-* `models/gemini-pro`
-* `models/gemini-pro-vision` (for multimodal input including images)
+
 
 **2. OpenAI (for `openai_api_key`)**
 
-* `gpt-4o`
+* `gpt-4.1`
+* `gpt-5`
+* `gpt-5-mini`
 * `gpt-4o-mini`
 * `gpt-4-turbo` (or `gpt-4-turbo-2024-04-09` for a specific date version)
 * `gpt-3.5-turbo` (or `gpt-3.5-turbo-0125` for a specific date version)
@@ -156,7 +155,6 @@ List of model names you can use in the `config.json`, grouped by provider.
 **3. Mistral AI (for `mistral_api_key`)**
 
 * `mistral-large-latest`
-* `mistral-small-latest`
 * `mistral-medium-latest`
 
 
