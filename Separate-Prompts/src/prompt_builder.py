@@ -71,7 +71,7 @@ Each question must include:
     return prompt.strip()
 
 
-def build_AnswersRubrics_prompt(question, bloom_level, focused_context, rubric_data):
+def build_qna_prompt(question, bloom_level, focused_context, rubric_data):
     """
     Constructs the prompt string for the LLM to generate an answer and rubric for a single question.
     The answer must ONLY use the provided focused_context.
