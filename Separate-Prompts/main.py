@@ -13,7 +13,7 @@ from src.data_loader import (
     find_subtopic_text,
     find_focused_context
 )
-from src.prompt_builder import build_questions_prompt, build_AnswersRubrics_prompt
+from src.prompt_builder import build_questions_prompt, build_qna_prompt
 from src.llm_api_client import call_llm_api
 from src.output_processor import (
     parse_questions_response,
@@ -89,7 +89,7 @@ def main():
     # =========================
     # Step 1: Generate Questions
     # =========================
-    print("🚀 Step 1: Generating questions...")
+    print(" Step 1: Generating questions...")
     questions_prompt = build_questions_prompt(params, textbook_data, curriculum_data, examples_data)
 
     try:
@@ -100,14 +100,14 @@ def main():
         # Save the questions with their source text
         questions_file_with_content = os.path.join(output_folder_path, 'questions_with_content.json')
         save_questions_with_content(questions_by_bloom, questions_file_with_content)
-        print(f"📝 Questions with source content saved to {questions_file_with_content}")
+        print(f" Questions with source content saved to {questions_file_with_content}")
 
     except Exception as e:
         print(f"An error occurred during question generation: {e}")
         return
 
     total_questions = sum(len(q_list) for q_list in questions_by_bloom.values())
-    print(f"✅ Generated a total of {total_questions} questions across all Bloom levels.")
+    print(f" Generated a total of {total_questions} questions across all Bloom levels.")
 
     # =======================================================
     # Step 2: Loop and Generate Q&A for each question (by Bloom Level)
@@ -118,7 +118,7 @@ def main():
     full_subtopic_text = find_subtopic_text(textbook_data, subtopic)
     if not full_subtopic_text:
         print(
-            f"⚠️ Warning: Could not find content for subtopic '{subtopic}'. Q&A generation will rely on general knowledge.")
+            f" Warning: Could not find content for subtopic '{subtopic}'. Q&A generation will rely on general knowledge.")
         full_subtopic_text = ""
 
     for bloom_level, questions_list_objects in questions_by_bloom.items():
@@ -127,13 +127,13 @@ def main():
         for i, q_obj in enumerate(questions_list_objects):
             question = q_obj.get('question', '')  # Extract the question string
             if not question:
-                print(f"  ⚠️ Skipping malformed question object: {q_obj}")
+                print(f"   Skipping malformed question object: {q_obj}")
                 continue
 
             print(f"  > Generating Q&A for question {i + 1}/{len(questions_list_objects)}...")
 
             focused_context = find_focused_context(question, full_subtopic_text)
-            qna_prompt = build_AnswersRubrics_prompt(question, bloom_level, focused_context, rubric_data)
+            qna_prompt = build_qna_prompt(question, bloom_level, focused_context, rubric_data)
 
             try:
                 response_qna, tokens_qa, duration_qa = call_llm_api(qna_prompt, config, params)
@@ -145,12 +145,12 @@ def main():
                 qna_for_level.append(qna_pair)
 
             except Exception as e:
-                print(f"  ⚠️ An error occurred for question '{question[:30]}...': {e}. Skipping.")
+                print(f"   An error occurred for question '{question[:30]}...': {e}. Skipping.")
                 continue
 
         final_output_grouped[bloom_level] = qna_for_level
 
-    print("\n✅ All Q&As and rubrics generated.")
+    print("\n All Q&As and rubrics generated.")
 
     # =========================
     # Step 3: Combine and Save
@@ -164,7 +164,7 @@ def main():
     with open(output_file, 'w') as f:
         json.dump(final_output, f, indent=2)
 
-    print(f"✅ Process completed successfully. Final output saved to {output_file}")
+    print(f" Process completed successfully. Final output saved to {output_file}")
 
 
 if __name__ == "__main__":
