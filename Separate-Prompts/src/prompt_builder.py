@@ -110,6 +110,7 @@ You are an expert educator and grader.
 Given the following question and Bloom's Taxonomy level, generate a detailed answer and a 4-level rubric.
 The answer must be based **only on the provided context** (do not invent information outside it).
 The rubric should be aligned with the question's difficulty and the specified Bloom's Taxonomy level.
+Answer and rubric must not be too complex.
 Do NOT add explanations, examples, or extra reasoning beyond what is requested. Only provide the JSON fields exactly as specified.
 - Make sure the answer and rubric are written in age-appropriate language for students under 18.
 - The rubric must be objective, transparent, and aligned with Bloom’s verbs.
