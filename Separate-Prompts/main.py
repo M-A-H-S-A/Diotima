@@ -13,7 +13,7 @@ from src.data_loader import (
     find_subtopic_text,
     find_focused_context
 )
-from src.prompt_builder import build_questions_prompt, build_qna_prompt
+from src.prompt_builder import build_questions_prompt, build_AnswersRubrics_prompt
 from src.llm_api_client import call_llm_api
 from src.output_processor import (
     parse_questions_response,
@@ -133,7 +133,7 @@ def main():
             print(f"  > Generating Q&A for question {i + 1}/{len(questions_list_objects)}...")
 
             focused_context = find_focused_context(question, full_subtopic_text)
-            qna_prompt = build_qna_prompt(question, bloom_level, focused_context, rubric_data)
+            qna_prompt = build_AnswersRubrics_prompt(question, bloom_level, focused_context, rubric_data)
 
             try:
                 response_qna, tokens_qa, duration_qa = call_llm_api(qna_prompt, config, params)
