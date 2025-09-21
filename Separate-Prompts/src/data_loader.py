@@ -5,6 +5,24 @@ import re
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
 
+# In src/data_loader.py
+
+def load_glossary_verbs(subject):
+    """
+    Load Bloom's taxonomy verbs from the glossary JSON file for the given subject.
+    Subject is expected to match a folder in 'data/' (e.g., 'biology', 'physics').
+    """
+    return load_json_safe_from_subject(subject, "GlossaryVerbs.json")
+
+
+def get_verbs_for_bloom_level(bloom_level, subject):
+    """
+    Return the verbs associated with a given Bloom level for the specified subject.
+    """
+    glossary = load_glossary_verbs(subject)
+    verbs_by_level = glossary.get("glossary_verbs_by_bloom_level", {})
+    return verbs_by_level.get(bloom_level, [])
+
 
 def load_json_safe_from_base(filename):
     file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', filename)
