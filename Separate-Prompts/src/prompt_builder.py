@@ -1,44 +1,25 @@
-from .data_loader import find_subtopic_text, find_topic_text
+from .data_loader import find_subtopic_text, find_topic_text,get_verbs_for_bloom_level
 
-def build_questions_prompt(params, textbook_data, curriculum_data, examples_data):
+def build_questions_prompt(params, textbook_data, curriculum_data, examples_data, glossary_verbs):
     """
     Constructs the prompt string for the LLM to generate questions, grouped by Bloom's level.
     """
-
-    bloom_levels_raw = params.get('bloom_level', '')
-    bloom_levels = [b.strip() for b in bloom_levels_raw.split(',') if b.strip()]
-    num_questions = params.get('num_questions')
-
     subject = params.get('subject', 'Unknown Subject')
+    bloomlevels_raw = params.get('bloom_level', "Analyzing")  # e.g., "Creating, Evaluating"
+    bloom_levels = [b.strip() for b in bloomlevels_raw.split(',') if b.strip()]
+    glossary_verbs = {level: get_verbs_for_bloom_level(level, subject) for level in bloom_levels}
+    #    print(f"Bloom levels selected: {bloom_levels}")
+#    print(f"Verbs loaded: {glossary_verbs}")
+    num_questions = params.get('num_questions')
     grade_level = params.get('grade_level', 'Unknown Grade')
     topic = params.get('topic', 'Unknown Topic')
     subtopic = params.get('subtopic', 'Unknown Subtopic')
     user_keywords = params.get('user_keywords', '')
-
     textbook_content = find_subtopic_text(textbook_data, subtopic) or "Use general knowledge."
     curriculum_content = find_topic_text(curriculum_data, topic) or "Use curriculum expectations."
     example_qas = examples_data.get(subtopic) or []
-
     # Keep JSON example outside the f-string to avoid brace escaping issues
-    json_example = """
-{
-  "questions": {
-    "<BloomLevel1>": [
-      {
-        "question": "What is the function of the cell membrane?",
-        "source_text": "The cell membrane controls what enters and leaves the cell."
-      },
-      {
-        "question": "Explain the role of enzymes in digestion.",
-        "source_text": "Enzymes break down large molecules into smaller molecules that the body can absorb."
-      }
-    ],
-    "<BloomLevel2>": [
-      ...
-    ]
-  }
-}
-"""
+    json_example = """ ... """  # same as yours
 
     prompt = f"""
 You are an expert curriculum designer.
@@ -60,6 +41,7 @@ Context:
 - Curriculum Guidance: {curriculum_content}
 - Example Q&As: {example_qas}
 - User Keywords: {user_keywords}
+- Glossary Verbs for Bloom level "{', '.join(bloom_levels)}": {glossary_verbs}
 
 Format your output as a valid JSON object.
 Each question must include:
@@ -71,7 +53,7 @@ Each question must include:
     return prompt.strip()
 
 
-def build_qna_prompt(question, bloom_level, focused_context, rubric_data):
+def build_AnswerRubrics_prompt(question, bloom_level, focused_context, rubric_structre):
     """
     Constructs the prompt string for the LLM to generate an answer and rubric for a single question.
     The answer must ONLY use the provided focused_context.
@@ -116,12 +98,23 @@ Do NOT add explanations, examples, or extra reasoning beyond what is requested. 
 - The rubric must be objective, transparent, and aligned with Bloom’s verbs.
 - Do not include subjective, biased, or culturally sensitive assumptions.
 
+When generating the rubric and answers, strictly follow these core principles:
+1. Alignment with Learning Objectives: Each criterion must map directly to a learning outcome. Use Bloom's verbs for clarity.
+2. Clarity and Specificity: Use precise, observable indicators; limit to 4–8 criteria and 3–5 performance levels.
+3. Descriptive Performance Levels: Use detailed, developmental language showing growth.
+4. Validity, Reliability, and Fairness: Ensure the rubric is valid, reliable, and transparent.
+5. Logical Progression: Each level reflects a meaningful step up, framed as stages of mastery.
+6. Concise but Complete: Focus on critical elements; test and revise as needed.
+7. Rubric Format: Prefer Analytic, Holistic, or Single-point based on the use case.
+
+
+
 Question: {question}
 Bloom's Taxonomy Level: {bloom_level}
 
 Context:
 - Textbook Content: {focused_context}
-- Rubric Structure (with glossary verbs): {rubric_data}
+- Rubric Structure: {rubric_structre}
 
 Format your output as valid JSON using the structure below:
 
