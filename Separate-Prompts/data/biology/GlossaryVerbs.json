@@ -1,0 +1,60 @@
+{
+  "glossary_verbs_by_bloom_level": {
+    "Remembering": [
+      "Identify",
+      "Recognise"
+    ],
+    "Understanding": [
+      "Describe",
+      "Explain",
+      "Outline",
+      "Discuss",
+      "Illustrate",
+      "Interpret",
+      "Relate",
+      "Review",
+      "Reflect",
+      "Consider",
+      "Appreciate"
+    ],
+    "Applying": [
+      "Apply",
+      "Use",
+      "Conduct",
+      "Measure",
+      "Model",
+      "Plan",
+      "Produce",
+      "Organise",
+      "Pose",
+      "Investigate",
+      "Explore"
+    ],
+    "Analyzing": [
+      "Analyse",
+      "Classify",
+      "Compare",
+      "Distinguish",
+      "Examine",
+      "Investigate",
+      "Interpret",
+      "Evaluate (data)",
+      "Research"
+    ],
+    "Evaluating": [
+      "Evaluate (ethical judgement)",
+      "Evaluate (data)",
+      "Justify",
+      "Predict",
+      "Reflect",
+      "Review",
+      "Consider"
+    ],
+    "Creating": [
+      "Design",
+      "Plan",
+      "Produce",
+      "Model"
+    ]
+  }
+}
