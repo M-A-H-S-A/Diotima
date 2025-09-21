@@ -23,6 +23,8 @@ This repository contains `main.py` — a flexible educational Q&A and rubric gen
   - **curriculum.json** — curriculum expectations to help align questions.
   - **examples.json** — example Q&As to guide style.
   - **rubrics.json** — a rubric template.
+  - **GlossaryVerbs.json** — a rubric template.
+
 
 - You can add or skip any of these — the model will fall back to its general knowledge if they’re missing.
 
