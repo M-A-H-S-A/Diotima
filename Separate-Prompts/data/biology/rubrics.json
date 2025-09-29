@@ -1,126 +1,70 @@
 {
-  "title": "Gold-Standard Rubric Structure",
-  "purpose": "Provide clear, consistent, and fair assessment guidelines aligned with ideal answers and learning objectives.",
-  "frameworks": [
-    {
-      "name": "Bloom's Taxonomy",
-      "description": "Classifies cognitive skills from recall to creation."
-    },
-    {
-      "name": "SOLO Taxonomy",
-      "description": "Five levels of understanding, from Prestructural to Extended Abstract."
-    },
-    {
-      "name": "AAC&U VALUE Rubrics",
-      "description": "Institutional-level tools for key higher education competencies."
-    }
-  ],
-  "core_principles": [
-    {
-      "principle": "Alignment with Learning Objectives",
-      "details": [
-        "Map each criterion to specific outcomes.",
-        "Use clear action verbs from Bloom's taxonomy aligned with cognitive levels when generating questions."
-      ]
-    },
-    {
-      "principle": "Clarity and Specificity",
-      "details": [
-        "Avoid vague words like 'good'.",
-        "Limit criteria and levels for usability."
-      ]
-    },
-    {
-      "principle": "Descriptive Performance Levels",
-      "details": [
-        "Use detailed, developmental language.",
-        "Frame levels as stages of mastery."
-      ]
-    },
-    {
-      "principle": "Validity, Reliability, and Fairness",
-      "details": [
-        "Ensure measurement of intended outcomes.",
-        "Consistency across raters; fairness for students."
-      ]
-    }
-  ],
-  "glossary_verbs_by_bloom_level": {
-    "Remembering": [
-      "Identify",
-      "Recognise"
-    ],
-    "Understanding": [
-      "Describe",
-      "Explain",
-      "Outline",
-      "Discuss",
-      "Illustrate",
-      "Interpret",
-      "Relate",
-      "Review",
-      "Reflect",
-      "Consider",
-      "Appreciate"
-    ],
-    "Applying": [
-      "Apply",
-      "Use",
-      "Conduct",
-      "Measure",
-      "Model",
-      "Plan",
-      "Produce",
-      "Organise",
-      "Pose",
-      "Investigate",
-      "Explore"
-    ],
-    "Analyzing": [
-      "Analyse",
-      "Classify",
-      "Compare",
-      "Distinguish",
-      "Examine",
-      "Investigate",
-      "Interpret",
-      "Evaluate (data)",
-      "Research"
-    ],
-    "Evaluating": [
-      "Evaluate (ethical judgement)",
-      "Evaluate (data)",
-      "Justify",
-      "Predict",
-      "Reflect",
-      "Review",
-      "Consider"
-    ],
-    "Creating": [
-      "Design",
-      "Plan",
-      "Produce",
-      "Model"
+  "rubric": {
+    "levels": [
+      {
+        "level": "Comprehensive Response",
+        "description": "Clear, accurate, fully addresses the learning outcome with correct terminology."
+      },
+      {
+        "level": "Competent Response",
+        "description": "Mostly correct, addresses learning outcome but missing some details."
+      },
+      {
+        "level": "Partial Response",
+        "description": "Partially correct or incomplete, demonstrates limited understanding."
+      },
+      {
+        "level": "Limited Response",
+        "description": "Incorrect or missing, shows minimal understanding."
+      }
     ]
   },
-  "format": {
-    "types": ["Analytic", "Holistic", "Single-point"],
-    "recommendation": "Use analytic for detailed feedback."
-  },
-  "ideal_answer_approach": {
-    "steps": [
-      "Write a scientifically accurate ideal answer.",
-      "Do not give any score.",
-      "No title and purpose needed in the output.",
-      "Develop performance bands: Comprehensive, Competent, Partial, Limited.",
-      "Map bands to ideal answer elements.",
-      "Include clear feedback on gaps."
-    ]
-  },
-  "no_rubric_question_types": [
-    "multiple_choice",
-    "true_false",
-    "naming",
-    "listing"
-  ]
+  "CorePrinciplesOfStandardRubrics": {
+    "1_AlignmentWithLearningObjectives": {
+      "description": "Ensure each rubric criterion maps directly to a specific learning outcome.",
+      "guidelines": [
+        "Use action verbs from Bloom’s or curriculum standards for clarity and measurability."
+      ]
+    },
+    "2_ClarityAndSpecificity": {
+      "description": "Avoid vague descriptors and use precise, observable indicators.",
+      "guidelines": [
+        "Limit to 4–8 criteria and 3–5 performance levels to prevent overload.",
+        "Avoid vague descriptors (e.g., 'good')."
+      ]
+    },
+    "3_DescriptivePerformanceLevels": {
+      "description": "Use detailed language for each level and favor developmental descriptions.",
+      "guidelines": [
+        "Example: 'Comprehensive response: clear, accurate, with correct terminology and full explanation.'",
+        "Show growth rather than just deficits."
+      ]
+    },
+    "4_ValidityReliabilityAndFairness": {
+      "description": "Ensure rubrics measure intended outcomes, are consistent, and fair.",
+      "guidelines": [
+        "Valid: Measures intended learning outcomes.",
+        "Reliable: Produces consistent results among different raters (use norming sessions).",
+        "Fair: Transparent, bias-free, and shared with students in advance."
+      ]
+    },
+    "5_LogicalProgressionOfPerformance": {
+      "description": "Ensure each performance level reflects a meaningful step up.",
+      "guidelines": [
+        "Use SOLO or Bloom’s to structure levels.",
+        "Frame levels as stages of mastery, not just failure vs. success."
+      ]
+    },
+    "6_ConciseButComplete": {
+      "description": "Focus on critical elements; revise after testing with sample work."
+    },
+    "7_RubricFormat": {
+      "description": "Select the appropriate format based on purpose.",
+      "types": [
+        "Analytic: Best for detailed feedback.",
+        "Holistic: Quick, general judgment.",
+        "Single-point: Focuses on proficiency with room for comments."
+      ]
+    }
+  }
 }
